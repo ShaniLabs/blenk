@@ -1,82 +1,132 @@
-# MyWorkspace
+# Blenk UI
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+[![CI](https://github.com/ShaniLabs/blenk/actions/workflows/ci.yml/badge.svg)](https://github.com/ShaniLabs/blenk/actions)
+[![npm version](https://img.shields.io/npm/v/@blenk/ui)](https://www.npmjs.com/package/@blenk/ui)
+[![Storybook](https://github.com/ShaniLabs/blenk/actions/workflows/storybook.yml/badge.svg)](https://your-org.github.io/blenk)
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+Blenk UI is a headless Angular component library delivering robust behavior‑only building blocks that any application—whether an app/demo, a Micro‑Frontend, or a feature module—can consume with zero styling assumptions.
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/tutorials/3-angular-monorepo/1a-introduction/1-welcome?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+---
 
-## Finish your CI setup
+## 🔑 Key Principles
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/DSggyXGFVL)
+1. **Headless by design**
+   All interactive logic, state management (signals, inputs/outputs, ARIA behaviors), and accessibility live in `libs/core`. No CSS, no templates—just pure behavior you can wrap in your own design system.
 
+2. **Strict logic/UI separation**
+   Presentational wrappers in `libs/ui` supply markup and SCSS, applying minimal classes so themes and branding can be swapped without touching business code.
 
-## Run tasks
+3. **Consistent API surface**
+   Every component exposes a clear public API (Inputs, Outputs, ControlValueAccessor) documented in `index.ts`. Imports are tree‑shakable via `@blenk/core/...` and `@blenk/ui/...`.
 
-To run the dev server for your app, use:
+4. **Nx‑powered monorepo**
+   Libraries under `libs/core` and `libs/ui`; the demo app under `apps/demo`. Code generation, building, linting, and testing are driven by Nx commands for maximum velocity.
 
-```sh
-npx nx serve blenk
+---
+
+## 📁 Repository Structure
+
+```plaintext
+.
+├── apps
+│   └── demo       Demo application showcasing Blenk UI components
+├── libs
+│   ├── core       Headless behavior-only directives & services
+│   └── ui         Presentational wrappers with markup & styling
+├── .github         CI/CD workflows (lint, test, build, release)
+├── nx.json         Nx workspace configuration
+├── tsconfig.base.json  Path mappings & compiler options
+└── README.md       Project overview and getting started
 ```
 
-To create a production bundle:
+---
 
-```sh
-npx nx build blenk
+## 🚀 Getting Started
+
+### Prerequisites
+
+* Node.js ≥ 18
+* npm ≥ 8
+* Nx CLI (`npm install -g nx`)
+
+### Install
+
+```bash
+git clone https://github.com/ShaniLabs/blenk.git
+cd blenk
+npm install
 ```
 
-To see all available targets to run for a project, run:
+### Serve the Demo App
 
-```sh
-npx nx show project blenk
+```bash
+npx nx serve demo
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+### Build the Libraries
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/angular:app demo
+```bash
+npx nx build core
+npx nx build ui
 ```
 
-To generate a new library, use:
+---
 
-```sh
-npx nx g @nx/angular:lib mylib
+## 📦 Using Blenk UI in Your Application
+
+### Install Packages
+
+```bash
+npm install @blenk/core @blenk/ui
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### Import Modules
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```ts
+import { CoreButtonModule } from '@blenk/core/button';
+import { UiButtonModule } from '@blenk/ui/button';
 
+@NgModule({
+  imports: [CoreButtonModule, UiButtonModule],
+})
+export class AppModule {
+}
+```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Deep Imports
 
-## Install Nx Console
+```ts
+import { ButtonComponent } from '@blenk/ui/button';
+```
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+---
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## 🛠 Storybook & Documentation
 
-## Useful links
+Launch Storybook for interactive component examples:
 
-Learn more:
+```bash
+npx nx run ui:storybook
+```
 
-- [Learn more about this workspace setup](https://nx.dev/tutorials/3-angular-monorepo/1a-introduction/1-welcome?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Then open: `http://localhost:6006`
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+API documentation for all Inputs & Outputs is autogenerated alongside Storybook.
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repo
+2. Create a feature branch (`git checkout -b feature/awesome`)
+3. Commit your changes (`git commit -m "feat: add new component"`)
+4. Push to the branch (`git push origin feature/awesome`)
+5. Open a Pull Request for review
+
+Please run `npx nx format:write` and `npx nx lint` before committing.
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
