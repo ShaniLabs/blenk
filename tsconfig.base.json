@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@blenk/core": ["libs/core/src/index.ts"],
       "@my-workspace/ui": ["libs/ui/src/index.ts"]
     }
   },

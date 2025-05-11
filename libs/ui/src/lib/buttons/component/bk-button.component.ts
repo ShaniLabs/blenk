@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BkButtonContext } from '../context';
+import { BkButtonContext } from '@blenk/core';
 
 @Component({
   selector: 'bk-button',
