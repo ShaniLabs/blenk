@@ -1,1 +1,1 @@
-export * from './lib/button/context';
+export * from './lib/button';

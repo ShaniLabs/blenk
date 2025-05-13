@@ -3,20 +3,21 @@ import { BehaviorSubject } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 export class BkButtonContext {
-  onClick?: () => void;
-  #disabled = new BehaviorSubject<boolean>(false);
-  disabled: Signal<boolean> = toSignal(this.#disabled, { initialValue: false });
+  onClick?: (event: PointerEvent) => void;
   #label = new BehaviorSubject<string>('');
+  #disabled = new BehaviorSubject<boolean>(false);
+  #loading = new BehaviorSubject<boolean>(false);
+
   label: Signal<string> = toSignal(this.#label, { initialValue: '' });
-  #hidden = new BehaviorSubject<boolean>(false);
-  hidden: Signal<boolean> = toSignal(this.#hidden, { initialValue: false });
+  disabled: Signal<boolean> = toSignal(this.#disabled, { initialValue: false });
+  loading: Signal<boolean> = toSignal(this.#loading, { initialValue: false });
 
   setDisabled(disabled: boolean) {
     this.#disabled.next(disabled);
   }
 
-  setHidden(hidden: boolean) {
-    this.#hidden.next(hidden);
+  setLoading(loading: boolean) {
+    this.#loading.next(loading);
   }
 
   setLabel(label: string) {
@@ -26,16 +27,16 @@ export class BkButtonContext {
 
 export interface BkButtonContextConfig {
   disabled?: boolean;
-  hidden?: boolean;
+  loading?: boolean;
   label?: string;
-  onClick?: () => void;
+  onClick?: (event: PointerEvent) => void;
 }
 
 export function injectNkButton(config?: BkButtonContextConfig) {
   const context = new BkButtonContext();
   if (config?.disabled) context.setDisabled(config.disabled);
-  if (config?.hidden) context.setHidden(config.hidden);
-  if (config?.onClick) context.onClick = config.onClick;
+  if (config?.loading) context.setLoading(config.loading);
   if (config?.label) context.setLabel(config.label);
+  if (config?.onClick) context.onClick = config.onClick;
   return context;
 }

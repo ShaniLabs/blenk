@@ -1,0 +1,8 @@
+<button
+  class="bk-button"
+  [bkButton]="context()">
+  @if (context().loading()) {
+    <span class="bk-button__spinner"></span>
+  }
+  {{ context().label() }}
+</button>
