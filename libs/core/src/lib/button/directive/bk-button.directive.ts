@@ -1,4 +1,4 @@
-import {Directive, HostBinding, HostListener, input, Input, InputSignal} from '@angular/core';
+import {Directive, input} from '@angular/core';
 import {BkButtonContext} from '@blenk/core';
 
 @Directive({
@@ -16,7 +16,7 @@ import {BkButtonContext} from '@blenk/core';
 export class BkButtonDirective {
   context = input.required<BkButtonContext>({alias: 'bkButton'});
 
-  handleClick(event: PointerEvent): void {
+  handleClick(event: MouseEvent): void {
     const ctx = this.context();
     if (ctx.disabled() || ctx.loading()) {
       event.preventDefault();

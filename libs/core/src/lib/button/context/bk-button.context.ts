@@ -5,7 +5,7 @@ export interface BkButtonContextConfig {
   loading?: boolean;
   label?: string;
   disabledReason?: string;
-  onClick?: (event: PointerEvent) => void;
+  onClick?: (event: MouseEvent) => void;
 }
 
 
@@ -20,7 +20,7 @@ export class BkButtonContext {
   readonly loading: Signal<boolean> = this.#loading.asReadonly();
   readonly disabledReason: Signal<string> = this.#disabledReason.asReadonly();
 
-  readonly #onClick?: (event: PointerEvent) => void;
+  readonly #onClick?: (event: MouseEvent) => void;
 
   constructor(config?: BkButtonContextConfig) {
     if (config) {
@@ -48,7 +48,7 @@ export class BkButtonContext {
     this.#disabledReason.set(reason);
   }
 
-  click(event: PointerEvent): void {
+  click(event: MouseEvent): void {
     if (!this.disabled() && !this.loading() && this.#onClick) {
       this.#onClick(event);
     }
