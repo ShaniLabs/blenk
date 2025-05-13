@@ -1,42 +1,60 @@
-import { Signal } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
-
-export class BkButtonContext {
-  onClick?: (event: PointerEvent) => void;
-  #label = new BehaviorSubject<string>('');
-  #disabled = new BehaviorSubject<boolean>(false);
-  #loading = new BehaviorSubject<boolean>(false);
-
-  label: Signal<string> = toSignal(this.#label, { initialValue: '' });
-  disabled: Signal<boolean> = toSignal(this.#disabled, { initialValue: false });
-  loading: Signal<boolean> = toSignal(this.#loading, { initialValue: false });
-
-  setDisabled(disabled: boolean) {
-    this.#disabled.next(disabled);
-  }
-
-  setLoading(loading: boolean) {
-    this.#loading.next(loading);
-  }
-
-  setLabel(label: string) {
-    this.#label.next(label);
-  }
-}
+import {signal, Signal} from '@angular/core';
 
 export interface BkButtonContextConfig {
   disabled?: boolean;
   loading?: boolean;
   label?: string;
+  disabledReason?: string;
   onClick?: (event: PointerEvent) => void;
 }
 
-export function injectNkButton(config?: BkButtonContextConfig) {
-  const context = new BkButtonContext();
-  if (config?.disabled) context.setDisabled(config.disabled);
-  if (config?.loading) context.setLoading(config.loading);
-  if (config?.label) context.setLabel(config.label);
-  if (config?.onClick) context.onClick = config.onClick;
-  return context;
+
+export class BkButtonContext {
+  readonly #label = signal<string>('');
+  readonly #disabled = signal<boolean>(false);
+  readonly #loading = signal<boolean>(false);
+  readonly #disabledReason = signal<string>('');
+
+  readonly label: Signal<string> = this.#label.asReadonly();
+  readonly disabled: Signal<boolean> = this.#disabled.asReadonly();
+  readonly loading: Signal<boolean> = this.#loading.asReadonly();
+  readonly disabledReason: Signal<string> = this.#disabledReason.asReadonly();
+
+  readonly #onClick?: (event: PointerEvent) => void;
+
+  constructor(config?: BkButtonContextConfig) {
+    if (config) {
+      this.setLabel(config.label ?? '');
+      this.setDisabled(config.disabled ?? false);
+      this.setLoading(config.loading ?? false);
+      this.setDisabledReason(config.disabledReason ?? '');
+      this.#onClick = config.onClick;
+    }
+  }
+
+  setLabel(label: string): void {
+    this.#label.set(label);
+  }
+
+  setDisabled(isDisabled: boolean): void {
+    this.#disabled.set(isDisabled);
+  }
+
+  setLoading(isLoading: boolean): void {
+    this.#loading.set(isLoading);
+  }
+
+  setDisabledReason(reason: string): void {
+    this.#disabledReason.set(reason);
+  }
+
+  click(event: PointerEvent): void {
+    if (!this.disabled() && !this.loading() && this.#onClick) {
+      this.#onClick(event);
+    }
+  }
+}
+
+export function injectBkButton(config?: BkButtonContextConfig) {
+  return new BkButtonContext(config);
 }

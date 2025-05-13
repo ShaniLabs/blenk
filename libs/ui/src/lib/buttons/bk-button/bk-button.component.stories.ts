@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { BkButtonComponent } from './bk-button.component';
-import { BkButtonContext, injectNkButton } from '@blenk/core';
+import { BkButtonContext, injectBkButton } from '@blenk/core';
 
 // Standalone wrapper to properly instantiate and update the button context
 @Component({
@@ -22,7 +22,7 @@ class StoryBkButtonWrapper implements OnChanges {
 
   constructor() {
     // Create context in DI scope
-    this.context = injectNkButton({
+    this.context = injectBkButton({
       label: this.label,
       disabled: this.disabled,
       loading: this.loading,

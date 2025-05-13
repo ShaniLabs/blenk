@@ -3,30 +3,25 @@ import {BkButtonContext} from '@blenk/core';
 
 @Directive({
   selector: '[bkButton]',
-  standalone: true
+  standalone: true,
+  host: {
+    '[disabled]': 'context().disabled()',
+    '[attr.aria-disabled]': 'context().disabled()',
+    '[attr.aria-busy]': 'context().loading()',
+    '[attr.aria-label]': 'context().label()',
+    '[attr.title]': 'context().disabled() ? context().disabledReason() : null',
+    '(click)': 'handleClick($event)'
+  }
 })
 export class BkButtonDirective {
-  context: InputSignal<BkButtonContext> = input.required({alias: 'bkButton'});
+  context = input.required<BkButtonContext>({alias: 'bkButton'});
 
-  @HostBinding('disabled')
-  get isDisabled(): boolean {
-    console.log('isDisabled:', this.context().disabled());
-    return this.context().disabled();
-  }
-
-  @HostBinding('attr.aria-busy')
-  get ariaBusy(): string {
-    console.log('ariaBusy:', this.context().loading());
-    return this.context().loading() ? 'true' : 'false';
-  }
-
-  @HostListener('click', ['$event'])
   handleClick(event: PointerEvent): void {
     const ctx = this.context();
     if (ctx.disabled() || ctx.loading()) {
       event.preventDefault();
       return;
     }
-    ctx.onClick?.(event);
+    ctx.click?.(event);
   }
 }
