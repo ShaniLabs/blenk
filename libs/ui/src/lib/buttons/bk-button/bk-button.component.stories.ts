@@ -1,17 +1,23 @@
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
-import { action } from '@storybook/addon-actions';
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {Meta, moduleMetadata, StoryFn} from '@storybook/angular';
+import {action} from '@storybook/addon-actions';
+import {CommonModule} from '@angular/common';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {BkButtonContext, BkButtonDirective, injectBkButton} from '@blenk/core';
 
-import { BkButtonComponent } from './bk-button.component';
-import { BkButtonContext, injectBkButton } from '@blenk/core';
-
-// Standalone wrapper to properly instantiate and update the button context
 @Component({
   standalone: true,
-  imports: [CommonModule, BkButtonComponent],
+  imports: [CommonModule, BkButtonDirective],
   selector: 'story-bk-button-wrapper',
-  template: `<bk-button [context]="context"></bk-button>`,
+  template: `
+    <button
+      class="bk-button-1"
+      [bkButton]="context">
+      @if (context.loading()) {
+        <span class="bk-button__spinner"></span>
+      }
+      {{ context.label() }}
+    </button>
+  `,
 })
 class StoryBkButtonWrapper implements OnChanges {
   @Input() label = '';
@@ -30,7 +36,7 @@ class StoryBkButtonWrapper implements OnChanges {
     });
   }
 
-  ngOnChanges({label,disabled,loading}: SimpleChanges): void {
+  ngOnChanges({label, disabled, loading}: SimpleChanges): void {
     // Update context signals on input changes
     if (label) {
       this.context.setLabel(this.label);
@@ -53,13 +59,13 @@ export default {
     }),
   ],
   argTypes: {
-    label: { control: 'text' },
-    disabled: { control: 'boolean' },
-    loading: { control: 'boolean' },
+    label: {control: 'text'},
+    disabled: {control: 'boolean'},
+    loading: {control: 'boolean'},
   },
 } as Meta<StoryBkButtonWrapper>;
 
-const Template: StoryFn<StoryBkButtonWrapper> = (args: StoryBkButtonWrapper) => ({ props: args });
+const Template: StoryFn<StoryBkButtonWrapper> = (args: StoryBkButtonWrapper) => ({props: args});
 
 export const Default = Template.bind({});
 Default.args = {

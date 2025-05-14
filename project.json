@@ -1,5 +1,5 @@
 {
-  "name": "@my-workspace/source",
+  "name": "@blenk",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "targets": {
     "local-registry": {
