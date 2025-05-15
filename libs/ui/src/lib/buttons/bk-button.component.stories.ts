@@ -10,7 +10,7 @@ import {BkButtonContext, BkButtonDirective, injectBkButton} from '@blenk/core';
   selector: 'story-bk-button-wrapper',
   template: `
     <button
-      class="bk-button-1"
+      class="btn-active"
       [bkButton]="context">
       @if (context.loading()) {
         <span class="bk-button__spinner"></span>
