@@ -4,105 +4,105 @@ import {BkTextInputContext, BkTextInputDirective, injectBkTextInput} from '@blen
 import {toObservable} from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
-  selector: 'story-bk-text-input-wrapper',
-  imports: [BkTextInputDirective],
-  template: `
-    <label for="textInput">{{ context.label() }}</label>
-    <input name="textInput" type="text" [bkTextInput]="context"/>
-    <p class="text-sm mt-2 text-gray-600">Value: {{ context.value() }}</p>
-    @if (!context.valid() && context.touched()) {
-      <p class="text-sm text-red-500">
-        Error: {{ context.errors().length > 0 ? context.errors()[0] : ' }}
-      </p>
-    }
-  `
+    standalone: true,
+    selector: 'bk-story-text-input-wrapper',
+    imports: [BkTextInputDirective],
+    template: `
+        <label for="textInput">{{ context.label() }}</label>
+        <input name="textInput" type="text" [bkTextInput]="context"/>
+        <p class="text-sm mt-2 text-gray-600">Value: {{ context.value() }}</p>
+        @if (!context.valid() && context.touched()) {
+            <p class="text-sm text-red-500">
+                Error: {{ context.errors().length > 0 ? context.errors()[0] : ' }}
+            </p>
+        }
+    `
 })
-class StoryBkTextInputWrapper implements OnChanges {
-  @Input() value = '';
-  @Input() disabled = false;
-  @Input() readonly = false;
-  @Input() required = false;
-  @Input() error: string | null = null;
-  @Input() placeholder = '';
+class StoryBkTextInputWrapperComponent implements OnChanges {
+    @Input() value = '';
+    @Input() disabled = false;
+    @Input() readonly = false;
+    @Input() required = false;
+    @Input() error: string | null = null;
+    @Input() placeholder = '';
 
-  context: BkTextInputContext = injectBkTextInput();
+    context: BkTextInputContext = injectBkTextInput();
 
-  focus$ = toObservable(this.context.focused);
-  touched$ = toObservable(this.context.touched);
+    focus$ = toObservable(this.context.focused);
+    touched$ = toObservable(this.context.touched);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['value']) {
-      this.context.setValue(this.value);
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['value']) {
+            this.context.setValue(this.value);
+        }
+        if (changes['disabled']) {
+            this.context.setDisabled(this.disabled);
+        }
+        if (changes['readonly']) {
+            this.context.setReadonly(this.readonly);
+        }
+        if (changes['required']) {
+            this.context.setRequired(this.required);
+        }
+        if (changes['placeholder']) {
+            this.context.setPlaceholder(this.placeholder);
+        }
+        if (changes['error']) {
+            this.context.setErrors(this.error ? [this.error] : null);
+        }
     }
-    if (changes['disabled']) {
-      this.context.setDisabled(this.disabled);
-    }
-    if (changes['readonly']) {
-      this.context.setReadonly(this.readonly);
-    }
-    if (changes['required']) {
-      this.context.setRequired(this.required);
-    }
-    if (changes['placeholder']) {
-      this.context.setPlaceholder(this.placeholder);
-    }
-    if (changes['error']) {
-      this.context.setErrors(this.error ? [this.error] : null);
-    }
-  }
 }
 
 export default {
-  title: 'Inputs/BkTextInput',
-  component: StoryBkTextInputWrapper,
-  decorators: [
-    moduleMetadata({
-      imports: [StoryBkTextInputWrapper],
-    })
-  ],
-  argTypes: {
-    value: {control: 'text'},
-    disabled: {control: 'boolean'},
-    readonly: {control: 'boolean'},
-    required: {control: 'boolean'},
-    placeholder: {control: 'text'},
-    error: {control: 'object'}
-  }
-} as Meta<StoryBkTextInputWrapper>;
+    title: 'Inputs/BkTextInput',
+    component: StoryBkTextInputWrapperComponent,
+    decorators: [
+        moduleMetadata({
+            imports: [StoryBkTextInputWrapperComponent],
+        })
+    ],
+    argTypes: {
+        value: {control: 'text'},
+        disabled: {control: 'boolean'},
+        readonly: {control: 'boolean'},
+        required: {control: 'boolean'},
+        placeholder: {control: 'text'},
+        error: {control: 'object'}
+    }
+} as Meta<StoryBkTextInputWrapperComponent>;
 
-const Template: StoryFn<StoryBkTextInputWrapper> = (args: StoryBkTextInputWrapper) => ({props: args});
+const Template: StoryFn<StoryBkTextInputWrapperComponent> = (args: StoryBkTextInputWrapperComponent) => ({props: args});
 
 export const Default = Template.bind({});
 Default.args = {
-  value: 'Hello',
-  disabled: false,
-  readonly: false,
-  required: false,
-  placeholder: 'Enter text...'
+    value: 'Hello',
+    disabled: false,
+    readonly: false,
+    required: false,
+    placeholder: 'Enter text...'
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-  value: 'Disabled input',
-  disabled: true
+    value: 'Disabled input',
+    disabled: true
 };
 
 export const Readonly = Template.bind({});
 Readonly.args = {
-  value: 'Readonly input',
-  readonly: true
+    value: 'Readonly input',
+    readonly: true
 };
 
 export const Required = Template.bind({});
 Required.args = {
-  value: '',
-  required: true,
-  placeholder: 'Required field'
+    value: '',
+    required: true,
+    placeholder: 'Required field'
 };
 
 export const WithError = Template.bind({});
 WithError.args = {
-  value: 'Invalid',
-  error: 'Manual error message'
+    value: 'Invalid',
+    error: 'Manual error message'
 };

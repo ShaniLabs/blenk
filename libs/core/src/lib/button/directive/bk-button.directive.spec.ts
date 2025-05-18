@@ -1,14 +1,14 @@
-import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { BkButtonDirective } from '@blenk/core';
-import { BkButtonContext } from '@blenk/core';
+import {Component, DebugElement} from '@angular/core';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
+import {BkButtonDirective} from './index';
+import {BkButtonContext} from '../context';
 
 @Component({
   standalone: true,
   imports: [BkButtonDirective],
   template: `
-    <button [bkButton]="ctx"></button>
+    <button [bkButton]="ctx">{{ ctx.label() }}</button>
   `,
 })
 class HostComponent {
@@ -80,7 +80,7 @@ describe('BkButtonDirective', () => {
 
     beforeEach(() => {
       clickSpy = jest.spyOn(hostComp.ctx, 'click');
-      clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
+      clickEvent = new MouseEvent('click', {bubbles: true, cancelable: true});
     });
 
     it('invokes context.click when enabled & not loading', () => {

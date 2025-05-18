@@ -1,6 +1,4 @@
-// libs/core/src/lib/bk-button.context.spec.ts
-
-import { BkButtonContext, BkButtonContextConfig } from '@blenk/core';
+import {BkButtonContext, BkButtonContextConfig} from './bk-button.context';
 
 describe('BkButtonContext', () => {
   let ctx: BkButtonContext;
@@ -49,7 +47,7 @@ describe('BkButtonContext', () => {
   describe('setters & dynamic state changes', () => {
     it('allows dynamic toggling of disabled and then clicking', () => {
       const mockFn = jest.fn();
-      const c = new BkButtonContext({ onClick: mockFn, disabled: true });
+      const c = new BkButtonContext({onClick: mockFn, disabled: true});
       // initially blocked
       c.click({} as MouseEvent);
       expect(mockFn).not.toHaveBeenCalled();
@@ -98,7 +96,7 @@ describe('BkButtonContext', () => {
 
     beforeEach(() => {
       mockFn = jest.fn();
-      c = new BkButtonContext({ onClick: mockFn });
+      c = new BkButtonContext({onClick: mockFn});
     });
 
     it('invokes callback when not disabled/loading', () => {
@@ -134,8 +132,8 @@ describe('BkButtonContext', () => {
 
   describe('multiple contexts are isolated', () => {
     it('does not share state between distinct instances', () => {
-      const first = new BkButtonContext({ label: 'one', disabled: true });
-      const second = new BkButtonContext({ label: 'two', disabled: false });
+      const first = new BkButtonContext({label: 'one', disabled: true});
+      const second = new BkButtonContext({label: 'two', disabled: false});
       expect(first.label()).toBe('one');
       expect(second.label()).toBe('two');
       expect(first.disabled()).toBe(true);
