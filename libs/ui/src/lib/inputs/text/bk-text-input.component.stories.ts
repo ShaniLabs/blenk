@@ -2,20 +2,56 @@ import {Meta, moduleMetadata, StoryFn} from '@storybook/angular';
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {BkTextInputContext, BkTextInputDirective, injectBkTextInput} from '@blenk/core';
 import {toObservable} from '@angular/core/rxjs-interop';
+import {JsonPipe} from '@angular/common';
 
 @Component({
     standalone: true,
     selector: 'bk-story-text-input-wrapper',
-    imports: [BkTextInputDirective],
+    imports: [BkTextInputDirective, JsonPipe],
     template: `
-        <label for="textInput">{{ context.label() }}</label>
-        <input name="textInput" type="text" [bkTextInput]="context"/>
-        <p class="text-sm mt-2 text-gray-600">Value: {{ context.value() }}</p>
-        @if (!context.valid() && context.touched()) {
-            <p class="text-sm text-red-500">
-                Error: {{ context.errors().length > 0 ? context.errors()[0] : ' }}
-            </p>
-        }
+        <div class="flex flex-col gap-3 w-full max-w-md p-6 border rounded-lg shadow-sm bg-white">
+            <label for="textInput" class="font-medium text-sm text-gray-800">{{ context.label() }}</label>
+
+            <input
+                    name="textInput"
+                    type="text"
+                    class="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 read-only:bg-gray-50"
+                    [bkTextInput]="context"
+            />
+
+            <div class="text-xs text-gray-500">
+                <div><strong>Value:</strong> {{ context.value() }}</div>
+                <div><strong>Dirty:</strong> {{ context.dirty() }}</div>
+                <div><strong>Touched:</strong> {{ context.touched() }}</div>
+                <div><strong>Focused:</strong> {{ context.focused() }}</div>
+                <div><strong>Valid:</strong> {{ context.valid() }}</div>
+                <div><strong>Has Value:</strong> {{ context.hasValue() }}</div>
+                <div><strong>Disabled:</strong> {{ context.disabled() }}</div>
+                <div><strong>Readonly:</strong> {{ context.readonly() }}</div>
+            </div>
+
+            @if (!context.valid() && context.touched()) {
+                <p class="text-sm text-red-500 mt-1">
+                    <strong>Error:</strong> {{ context.errors() | json }}
+                </p>
+            }
+
+            <pre class="bg-gray-50 border rounded p-3 text-xs mt-3 text-gray-700">{{
+                    {
+                        value: context.value(),
+                        dirty: context.dirty(),
+                        touched: context.touched(),
+                        focused: context.focused(),
+                        valid: context.valid(),
+                        hasValue: context.hasValue(),
+                        disabled: context.disabled(),
+                        readonly: context.readonly(),
+                        placeholder: context.placeholder(),
+                        label: context.label(),
+                        errors: context.errors()
+                    } | json
+                }}</pre>
+        </div>
     `
 })
 class StoryBkTextInputWrapperComponent implements OnChanges {
@@ -25,6 +61,7 @@ class StoryBkTextInputWrapperComponent implements OnChanges {
     @Input() required = false;
     @Input() errors: Record<string, unknown> | null = null;
     @Input() placeholder = '';
+    @Input() label = '';
 
     context: BkTextInputContext = injectBkTextInput();
 
@@ -47,8 +84,11 @@ class StoryBkTextInputWrapperComponent implements OnChanges {
         if (changes['placeholder']) {
             this.context.setPlaceholder(this.placeholder);
         }
-        if (changes['error']) {
-            this.context.setErrors(this.errors ? this.errors : null);
+        if (changes['label']) {
+            this.context.setLabel(this.label);
+        }
+        if (changes['errors']) {
+            this.context.setErrors(this.errors);
         }
     }
 }
@@ -67,6 +107,7 @@ export default {
         readonly: {control: 'boolean'},
         required: {control: 'boolean'},
         placeholder: {control: 'text'},
+        label: {control: 'text'},
         errors: {control: 'object'}
     }
 } as Meta<StoryBkTextInputWrapperComponent>;
@@ -76,33 +117,53 @@ const Template: StoryFn<StoryBkTextInputWrapperComponent> = (args: StoryBkTextIn
 export const Default = Template.bind({});
 Default.args = {
     value: 'Hello',
-    disabled: false,
-    readonly: false,
-    required: false,
-    placeholder: 'Enter text...'
+    placeholder: 'Type here...'
+};
+
+export const WithLabel = Template.bind({});
+WithLabel.args = {
+    label: 'Username',
+    value: ''
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
     value: 'Disabled input',
-    disabled: true
+    disabled: true,
+    label: 'Disabled Field'
 };
 
 export const Readonly = Template.bind({});
 Readonly.args = {
     value: 'Readonly input',
-    readonly: true
+    readonly: true,
+    label: 'Readonly Field'
 };
 
-export const Required = Template.bind({});
-Required.args = {
+export const RequiredEmpty = Template.bind({});
+RequiredEmpty.args = {
     value: '',
     required: true,
+    label: 'Required Field',
     placeholder: 'Required field'
 };
 
-export const WithError = Template.bind({});
-WithError.args = {
-    value: 'Invalid',
-    errors: {required: 'This field is required'},
+export const WithCustomError = Template.bind({});
+WithCustomError.args = {
+    value: 'Invalid value',
+    errors: {custom: 'This value is invalid'},
+    label: 'Custom Error'
+};
+
+export const FullyInvalid = Template.bind({});
+FullyInvalid.args = {
+    value: '',
+    required: true,
+    readonly: false,
+    disabled: false,
+    errors: {
+        required: 'Required',
+        pattern: 'Must be alphanumeric'
+    },
+    label: 'Fully Invalid Input'
 };
