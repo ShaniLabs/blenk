@@ -5,6 +5,10 @@ on:
     branches:
       - master
 
+permissions:
+  contents: write   # allow pushing code
+  pages: write      # allow managing the Pages branch
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
