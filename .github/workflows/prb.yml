@@ -1,0 +1,36 @@
+name: Pull Request Builder
+
+on:
+  pull_request:
+    types: [ opened, synchronize ]
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          filter: tree:0
+          fetch-depth: 0
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install npm packages
+        run: npm ci
+
+      #      - run: npx playwright install --with-deps
+
+      - name: Set Nx SHAs
+        uses: nrwl/nx-set-shas@v4
+
+      - name: Run affected lint, tests, build & e2e
+        run: npx nx affected -t lint test build e2e
