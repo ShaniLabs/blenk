@@ -23,7 +23,7 @@ class StoryBkTextInputWrapperComponent implements OnChanges {
     @Input() disabled = false;
     @Input() readonly = false;
     @Input() required = false;
-    @Input() error: string | null = null;
+    @Input() errors: Record<string, unknown> | null = null;
     @Input() placeholder = '';
 
     context: BkTextInputContext = injectBkTextInput();
@@ -48,7 +48,7 @@ class StoryBkTextInputWrapperComponent implements OnChanges {
             this.context.setPlaceholder(this.placeholder);
         }
         if (changes['error']) {
-            this.context.setErrors(this.error ? [this.error] : null);
+            this.context.setErrors(this.errors ? this.errors : null);
         }
     }
 }
@@ -67,7 +67,7 @@ export default {
         readonly: {control: 'boolean'},
         required: {control: 'boolean'},
         placeholder: {control: 'text'},
-        error: {control: 'object'}
+        errors: {control: 'object'}
     }
 } as Meta<StoryBkTextInputWrapperComponent>;
 
@@ -104,5 +104,5 @@ Required.args = {
 export const WithError = Template.bind({});
 WithError.args = {
     value: 'Invalid',
-    error: 'Manual error message'
+    errors: {required: 'This field is required'},
 };
