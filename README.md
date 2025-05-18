@@ -2,25 +2,30 @@
 
 [![CI](https://github.com/ShaniLabs/blenk/actions/workflows/ci.yml/badge.svg)](https://github.com/ShaniLabs/blenk/actions)
 [![npm version](https://img.shields.io/npm/v/@blenk/ui)](https://www.npmjs.com/package/@blenk/ui)
-[![Storybook](https://github.com/ShaniLabs/blenk/actions/workflows/storybook.yml/badge.svg)](https://your-org.github.io/blenk)
+[![Storybook](https://github.com/ShaniLabs/blenk/actions/workflows/storybook.yml/badge.svg)](https://shanilabs.github.io/blenk/)
 
-Blenk UI is a headless Angular component library delivering robust behavior‑only building blocks that any application—whether an app/demo, a Micro‑Frontend, or a feature module—can consume with zero styling assumptions.
+Blenk UI is a headless Angular component library delivering robust behavior‑only building blocks that any
+application—whether an app/demo, a Micro‑Frontend, or a feature module—can consume with zero styling assumptions.
 
 ---
 
 ## 🔑 Key Principles
 
 1. **Headless by design**
-   All interactive logic, state management (signals, inputs/outputs, ARIA behaviors), and accessibility live in `libs/core`. No CSS, no templates—just pure behavior you can wrap in your own design system.
+   All interactive logic, state management (signals, inputs/outputs, ARIA behaviors), and accessibility live in
+   `libs/core`. No CSS, no templates—just pure behavior you can wrap in your own design system.
 
 2. **Strict logic/UI separation**
-   Presentational wrappers in `libs/ui` supply markup and SCSS, applying minimal classes so themes and branding can be swapped without touching business code.
+   Presentational wrappers in `libs/ui` supply markup and SCSS, applying minimal classes so themes and branding can be
+   swapped without touching business code.
 
 3. **Consistent API surface**
-   Every component exposes a clear public API (Inputs, Outputs, ControlValueAccessor) documented in `index.ts`. Imports are tree‑shakable via `@blenk/core/...` and `@blenk/ui/...`.
+   Every component exposes a clear public API (Inputs, Outputs, ControlValueAccessor) documented in `index.ts`. Imports
+   are tree‑shakable via `@blenk/core/...` and `@blenk/ui/...`.
 
 4. **Nx‑powered monorepo**
-   Libraries under `libs/core` and `libs/ui`; the demo app under `apps/demo`. Code generation, building, linting, and testing are driven by Nx commands for maximum velocity.
+   Libraries under `libs/core` and `libs/ui`; the demo app under `apps/demo`. Code generation, building, linting, and
+   testing are driven by Nx commands for maximum velocity.
 
 ---
 
@@ -83,11 +88,11 @@ npm install @blenk/core @blenk/ui
 ### Import Modules
 
 ```ts
-import { CoreButtonModule } from '@blenk/core/button';
-import { UiButtonModule } from '@blenk/ui/button';
+import {CoreButtonModule} from '@blenk/core/button';
+import {UiButtonModule} from '@blenk/ui/button';
 
 @NgModule({
-  imports: [CoreButtonModule, UiButtonModule],
+    imports: [CoreButtonModule, UiButtonModule],
 })
 export class AppModule {
 }
@@ -96,7 +101,7 @@ export class AppModule {
 ### Deep Imports
 
 ```ts
-import { ButtonComponent } from '@blenk/ui/button';
+import {ButtonComponent} from '@blenk/ui/button';
 ```
 
 ---
