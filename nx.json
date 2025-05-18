@@ -23,7 +23,6 @@
       "{workspaceRoot}/.github/workflows/ci.yml"
     ]
   },
-  "nxCloudId": "681f9a911dc2384d592b9fc3",
   "targetDefaults": {
     "@angular-devkit/build-angular:application": {
       "cache": true,
@@ -117,7 +116,7 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
+      "runner": "@nx/workspace/tasks-runners/default",
       "options": {
         "cacheableOperations": [
           "build",
