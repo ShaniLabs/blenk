@@ -1,7 +1,7 @@
 import {Meta, moduleMetadata, StoryFn} from '@storybook/angular';
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {BkTextInputContext, BkTextInputDirective, injectBkTextInput} from '@blenk/core';
-import {toObservable} from '@angular/core/rxjs-interop';
+import {action} from '@storybook/addon-actions';
 
 @Component({
   standalone: true,
@@ -11,7 +11,7 @@ import {toObservable} from '@angular/core/rxjs-interop';
     <input [bkTextInput]="context"/>
   `
 })
-class StoryBkTextInputWrapperComponent implements OnChanges {
+class StoryBkTextInputWrapperComponent implements OnChanges, OnInit {
   @Input() value = '';
   @Input() disabled = false;
   @Input() readonly = false;
@@ -20,32 +20,47 @@ class StoryBkTextInputWrapperComponent implements OnChanges {
   @Input() placeholder = '';
   @Input() label = '';
 
-  context: BkTextInputContext = injectBkTextInput();
+  context!: BkTextInputContext;
 
-  focus$ = toObservable(this.context.focused);
-  touched$ = toObservable(this.context.touched);
+  ngOnInit(): void {
+    this.context = injectBkTextInput({
+      label: this.label,
+      disabled: this.disabled,
+      readonly: this.readonly,
+      required: this.required,
+      placeholder: this.placeholder,
+      errors: this.errors,
+      initialValue: this.value,
+      onFocus: action('focus'),
+      onBlur: action('blur'),
+      onDirtyChange: action('dirty-change')
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['value']) {
-      this.context.setValue(this.value);
-    }
-    if (changes['disabled']) {
-      this.context.setDisabled(this.disabled);
-    }
-    if (changes['readonly']) {
-      this.context.setReadonly(this.readonly);
-    }
-    if (changes['required']) {
-      this.context.setRequired(this.required);
-    }
-    if (changes['placeholder']) {
-      this.context.setPlaceholder(this.placeholder);
-    }
-    if (changes['label']) {
-      this.context.setLabel(this.label);
-    }
-    if (changes['errors']) {
-      this.context.setErrors(this.errors);
+    if (this.context) {
+
+      if (changes['value']) {
+        this.context.setValue(this.value);
+      }
+      if (changes['disabled']) {
+        this.context.setDisabled(this.disabled);
+      }
+      if (changes['readonly']) {
+        this.context.setReadonly(this.readonly);
+      }
+      if (changes['required']) {
+        this.context.setRequired(this.required);
+      }
+      if (changes['placeholder']) {
+        this.context.setPlaceholder(this.placeholder);
+      }
+      if (changes['label']) {
+        this.context.setLabel(this.label);
+      }
+      if (changes['errors']) {
+        this.context.setErrors(this.errors);
+      }
     }
   }
 }
@@ -65,7 +80,8 @@ export default {
     required: {control: 'boolean'},
     placeholder: {control: 'text'},
     label: {control: 'text'},
-    errors: {control: 'object'}
+    errors: {control: 'object'},
+    reset: action('reset')
   }
 } as Meta<StoryBkTextInputWrapperComponent>;
 
