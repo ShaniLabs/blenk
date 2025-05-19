@@ -9,20 +9,14 @@ import {BkButtonContext, BkButtonDirective, injectBkButton} from '@blenk/core';
     imports: [CommonModule, BkButtonDirective],
     selector: 'bk-story-button-wrapper',
     template: `
-        <button
-                class="btn-active"
-                [bkButton]="context">
-            @if (context.loading()) {
-                <span class="bk-button__spinner"></span>
-            }
-            {{ context.label() }}
-        </button>
+        <button [bkButton]="context"> {{ context.label() }}</button>
     `,
 })
 class StoryBkButtonWrapperComponent implements OnChanges {
     @Input() label = '';
     @Input() disabled = false;
     @Input() loading = false;
+    @Input() disabledReason = '';
 
     context: BkButtonContext;
 
@@ -36,7 +30,7 @@ class StoryBkButtonWrapperComponent implements OnChanges {
         });
     }
 
-    ngOnChanges({label, disabled, loading}: SimpleChanges): void {
+    ngOnChanges({label, disabled, loading, disabledReason}: SimpleChanges): void {
         // Update context signals on input changes
         if (label) {
             this.context.setLabel(this.label);
@@ -46,6 +40,9 @@ class StoryBkButtonWrapperComponent implements OnChanges {
         }
         if (loading) {
             this.context.setLoading(this.loading);
+        }
+        if (disabledReason) {
+            this.context.setDisabledReason(this.disabledReason);
         }
     }
 }
@@ -62,6 +59,7 @@ export default {
         label: {control: 'text'},
         disabled: {control: 'boolean'},
         loading: {control: 'boolean'},
+        disabledReason: {control: 'text'},
     },
 } as Meta<StoryBkButtonWrapperComponent>;
 
