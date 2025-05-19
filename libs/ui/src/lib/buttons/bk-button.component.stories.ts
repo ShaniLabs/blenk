@@ -12,9 +12,6 @@ import {BkButtonContext, BkButtonDirective, injectBkButton} from '@blenk/core';
         <button
                 class="btn-active"
                 [bkButton]="context">
-            @if (context.loading()) {
-                <span class="bk-button__spinner"></span>
-            }
             {{ context.label() }}
         </button>
     `,
