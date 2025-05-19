@@ -26,7 +26,7 @@
         "browserTarget": "ui:build-storybook",
         "compodoc": false,
         "styles": [
-          "libs/ui/global.css"
+          "libs/ui/.storybook/styles.scss"
         ]
       },
       "configurations": {
@@ -46,7 +46,7 @@
         "browserTarget": "ui:build-storybook",
         "compodoc": false,
         "styles": [
-          "libs/ui/global.css"
+          "libs/ui/.storybook/styles.scss"
         ]
       },
       "configurations": {
@@ -71,7 +71,7 @@
         "staticFilePath": "dist/storybook/ui",
         "spa": true,
         "styles": [
-          "libs/ui/global.css"
+          "libs/ui/.storybook/styles.scss"
         ]
       },
       "configurations": {

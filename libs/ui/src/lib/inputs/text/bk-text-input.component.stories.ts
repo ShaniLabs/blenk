@@ -8,7 +8,7 @@ import {action} from '@storybook/addon-actions';
   selector: 'bk-story-text-input-wrapper',
   imports: [BkTextInputDirective],
   template: `
-    <input [bkTextInput]="context"/>
+    <input class="input" [bkTextInput]="context"/>
   `
 })
 class StoryBkTextInputWrapperComponent implements OnChanges, OnInit {
