@@ -22,7 +22,6 @@ export class BkTextInputContext {
   readonly #required = signal(false);
   readonly #readonly = signal(false);
   readonly #errors = signal<Record<string, unknown> | null>(null);
-  readonly #focused = signal(false);
   readonly #touched = signal(false);
   readonly #placeholder = signal<string | undefined>(undefined);
   readonly #onFocus?: (event?: FocusEvent) => void;
@@ -36,7 +35,6 @@ export class BkTextInputContext {
   readonly required = this.#required;
   readonly readonly = this.#readonly;
   readonly errors = this.#errors;
-  readonly focused = this.#focused;
   readonly touched = this.#touched;
   readonly placeholder = this.#placeholder;
   readonly hasValue = computed(() => this.#value().length > 0);
@@ -104,13 +102,11 @@ export class BkTextInputContext {
   }
 
   focus(event?: FocusEvent): void {
-    this.#focused.set(true);
     this.#onFocus?.(event);
   }
 
   blur(event?: FocusEvent): void {
-    if (this.#focused()) {
-      this.#focused.set(false);
+    if (!this.touched()) {
       this.#touched.set(true);
     }
     this.#onBlur?.(event);

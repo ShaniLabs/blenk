@@ -1,0 +1,21 @@
+**Task:**
+Write CSS rules that style an HTML `<button>` element for every interaction state listed below.
+**Keep the selectors exactly as provided** and include **only CSS** in your reply (no commentary).
+Use any colors, animations, or effects you like, as long as each state looks visually distinct.
+
+**Selectors to style**
+1. `button` - default
+2. `button:hover`
+3. `button[disabled]`
+4. `button[disabled]:hover`
+5. `button[aria-busy="true"]`
+6. `button[aria-busy="true"]:hover`
+7. `button[aria-busy="true"][disabled]`
+8. `button[aria-busy="true"][disabled]:hover`
+9. `button:focus`
+10. `button:focus:hover`
+11. `button:focus[disabled]`
+12. `button:focus[disabled]:hover`
+
+**Output format:**
+A single fenced CSS code-block containing the 12 rules in numeric order.

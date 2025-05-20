@@ -1,18 +1,26 @@
 import {Component, DebugElement} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
-import {BkButtonDirective} from './index';
-import {BkButtonContext} from '../context';
+import {BkButtonDirective} from './bk-button.directive';
+import {injectBkButton} from '../context';
 
 @Component({
   standalone: true,
   imports: [BkButtonDirective],
   template: `
-    <button [bkButton]="ctx">{{ ctx.label() }}</button>
-  `,
+    <button [bkButton]="ctx">{{ ctx.label() }}</button>`,
 })
 class HostComponent {
-  ctx = new BkButtonContext();
+  onClickSpy = jest.fn();
+  onFocusSpy = jest.fn();
+  onBlurSpy = jest.fn();
+
+  ctx = injectBkButton({
+    label: 'Click Me',
+    onClick: this.onClickSpy,
+    onFocus: this.onFocusSpy,
+    onBlur: this.onBlurSpy
+  });
 }
 
 describe('BkButtonDirective', () => {
@@ -28,40 +36,47 @@ describe('BkButtonDirective', () => {
 
     fixture = TestBed.createComponent(HostComponent);
     hostComp = fixture.componentInstance;
-    fixture.detectChanges();
-
     buttonDe = fixture.debugElement.query(By.css('button'));
     buttonEl = buttonDe.nativeElement;
+
+    fixture.detectChanges();
   });
 
-  it('should bind disabled and aria-disabled to context.disabled()', () => {
-    expect(buttonEl.disabled).toBe(false);
-    expect(buttonEl.getAttribute('aria-disabled')).toBe('false');
+  it('should create directive', () => {
+    expect(buttonDe).toBeTruthy();
+  });
 
+  it('should initialize with provided label', () => {
+    expect(buttonEl.getAttribute('aria-label')).toBe('Click Me');
+  });
+
+  it('should update disabled and aria-disabled attributes', () => {
     hostComp.ctx.setDisabled(true);
     fixture.detectChanges();
 
     expect(buttonEl.disabled).toBe(true);
     expect(buttonEl.getAttribute('aria-disabled')).toBe('true');
+
+    hostComp.ctx.setDisabled(false);
+    fixture.detectChanges();
+
+    expect(buttonEl.disabled).toBe(false);
+    expect(buttonEl.getAttribute('aria-disabled')).toBe('false');
   });
 
-  it('should bind aria-busy to context.loading()', () => {
-    expect(buttonEl.getAttribute('aria-busy')).toBe('false');
-
+  it('should update aria-busy based on loading state', () => {
     hostComp.ctx.setLoading(true);
     fixture.detectChanges();
 
     expect(buttonEl.getAttribute('aria-busy')).toBe('true');
-  });
 
-  it('should bind aria-label to context.label()', () => {
-    hostComp.ctx.setLabel('Save');
+    hostComp.ctx.setLoading(false);
     fixture.detectChanges();
 
-    expect(buttonEl.getAttribute('aria-label')).toBe('Save');
+    expect(buttonEl.getAttribute('aria-busy')).toBe('false');
   });
 
-  it('should bind title to context.disabledReason() when disabled', () => {
+  it('should set the title based on disabled reason when disabled', () => {
     hostComp.ctx.setDisabledReason('Not allowed');
     hostComp.ctx.setDisabled(true);
     fixture.detectChanges();
@@ -76,41 +91,56 @@ describe('BkButtonDirective', () => {
 
   describe('click handling', () => {
     let clickEvent: MouseEvent;
-    let clickSpy: jest.SpyInstance<void, [MouseEvent]>;
 
     beforeEach(() => {
-      clickSpy = jest.spyOn(hostComp.ctx, 'click');
-      clickEvent = new MouseEvent('click', {bubbles: true, cancelable: true});
+      clickEvent = new MouseEvent('click', {bubbles: true});
     });
 
-    it('invokes context.click when enabled & not loading', () => {
+    it('should invoke click handler if not disabled', () => {
       hostComp.ctx.setDisabled(false);
-      hostComp.ctx.setLoading(false);
       fixture.detectChanges();
 
-      buttonDe.triggerEventHandler('click', clickEvent)
-      expect(clickEvent.defaultPrevented).toBe(false);
-      expect(clickSpy).toHaveBeenCalledWith(clickEvent);
+      buttonEl.dispatchEvent(clickEvent);
+      fixture.detectChanges();
+
+      expect(hostComp.onClickSpy).toHaveBeenCalled();
     });
 
-    it('prevents default and does not call click when disabled', () => {
+    it('should prevent click event if disabled', () => {
       hostComp.ctx.setDisabled(true);
-      hostComp.ctx.setLoading(false);
       fixture.detectChanges();
 
-      buttonDe.triggerEventHandler('click', clickEvent)
-      expect(clickEvent.defaultPrevented).toBe(true);
-      expect(clickSpy).not.toHaveBeenCalled();
+      const preventDefaultSpy = jest.spyOn(clickEvent, 'preventDefault');
+
+      buttonEl.dispatchEvent(clickEvent);
+      fixture.detectChanges();
+
+      expect(preventDefaultSpy).toHaveBeenCalled();
+      expect(hostComp.onClickSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('focus and blur handling', () => {
+    let focusEvent: FocusEvent;
+    let blurEvent: FocusEvent;
+
+    beforeEach(() => {
+      focusEvent = new FocusEvent('focus');
+      blurEvent = new FocusEvent('blur');
     });
 
-    it('prevents default and does not call click when loading', () => {
-      hostComp.ctx.setDisabled(false);
-      hostComp.ctx.setLoading(true);
+    it('should invoke focus handler on button focus', () => {
+      buttonEl.dispatchEvent(focusEvent);
       fixture.detectChanges();
 
-      buttonDe.triggerEventHandler('click', clickEvent)
-      expect(clickEvent.defaultPrevented).toBe(true);
-      expect(clickSpy).not.toHaveBeenCalled();
+      expect(hostComp.onFocusSpy).toHaveBeenCalled();
+    });
+
+    it('should invoke blur handler on button blur', () => {
+      buttonEl.dispatchEvent(blurEvent);
+      fixture.detectChanges();
+
+      expect(hostComp.onBlurSpy).toHaveBeenCalled();
     });
   });
 });

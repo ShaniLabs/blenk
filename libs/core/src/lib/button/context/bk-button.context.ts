@@ -6,6 +6,8 @@ export interface BkButtonContextConfig {
   label?: string;
   disabledReason?: string;
   onClick?: (event: MouseEvent) => void;
+  onFocus?: (event: FocusEvent) => void;
+  onBlur?: (event: FocusEvent) => void;
 }
 
 
@@ -20,7 +22,9 @@ export class BkButtonContext {
   readonly loading: Signal<boolean> = this.#loading.asReadonly();
   readonly disabledReason: Signal<string> = this.#disabledReason.asReadonly();
 
-  readonly #onClick?: (event: MouseEvent) => void;
+  readonly #onClick?: (evt: MouseEvent) => void;
+  readonly #onFocus?: (evt: FocusEvent) => void;
+  readonly #onBlur?: (evt: FocusEvent) => void;
 
   constructor(config?: BkButtonContextConfig) {
     if (config) {
@@ -29,6 +33,8 @@ export class BkButtonContext {
       this.setLoading(config.loading ?? false);
       this.setDisabledReason(config.disabledReason ?? '');
       this.#onClick = config.onClick;
+      this.#onFocus = config.onFocus;
+      this.#onBlur = config.onBlur;
     }
   }
 
@@ -49,9 +55,19 @@ export class BkButtonContext {
   }
 
   click(event: MouseEvent): void {
-    if (!this.disabled() && !this.loading() && this.#onClick) {
-      this.#onClick(event);
+    if (this.disabled()) {
+      event.preventDefault();
+      return;
     }
+    this.#onClick?.(event);
+  }
+
+  focus(evt: FocusEvent): void {
+    this.#onFocus?.(evt);
+  }
+
+  blur(evt: FocusEvent): void {
+    this.#onBlur?.(evt);
   }
 }
 
