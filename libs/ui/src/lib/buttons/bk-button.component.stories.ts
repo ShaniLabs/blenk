@@ -1,5 +1,5 @@
 import {Meta, moduleMetadata, StoryFn} from '@storybook/angular';
-import {BkButtonComponent} from '@blenk/core';
+import {BkButtonComponent} from './bk-button.component';
 
 export default {
   title: 'Components/Button',
