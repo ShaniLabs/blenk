@@ -1,0 +1,133 @@
+@keyframes aurora-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0);
+  }
+}
+
+@keyframes dash-spin {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 1. Default --------------------------------------------------*/
+button {
+  --aurora: linear-gradient(135deg, #6366f1, #ec4899, #f97316, #facc15);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+
+  padding: 0.65rem 1.25rem;
+  border: none;
+  border-radius: 0.6rem;
+  background: var(--aurora) no-repeat;
+  background-size: 300% 300%;
+  color: #fff;
+  font: 600 0.95rem/1.2 system-ui, sans-serif;
+  cursor: pointer;
+  animation: aurora-shift 8s ease-in-out infinite;
+  transition: transform 0.18s ease;
+}
+
+/* 2. Default + Hover -----------------------------------------*/
+button:hover {
+  transform: scale(1.05) rotate(1deg);
+}
+
+/* 3. Disabled -------------------------------------------------*/
+button[disabled] {
+  background: #94a3b8;
+  color: #e2e8f0;
+  cursor: not-allowed;
+  animation: none;
+  opacity: 0.8;
+}
+
+/* 4. Disabled + Hover ----------------------------------------*/
+button[disabled]:hover {
+  transform: none;
+}
+
+/* 5. Loading --------------------------------------------------*/
+button[aria-busy="true"] {
+  animation: aurora-shift 4s linear infinite;
+  cursor: progress;
+}
+
+/* Animated border overlay */
+button[aria-busy="true"]::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: conic-gradient(from 0deg, #2dd4bf, #9333ea, #f43f5e, #3b82f6, #2dd4bf);
+  mask: linear-gradient(#000, #000) content-box,
+  linear-gradient(#000, #000);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+  -webkit-mask-composite: xor;
+  padding: 3px;
+  animation: aurora-shift 2s linear infinite;
+}
+
+/* 6. Loading + Hover -----------------------------------------*/
+button[aria-busy="true"]:hover {
+  transform: scale(1.03);
+}
+
+/* 7. Loading + Disabled --------------------------------------*/
+button[aria-busy="true"][disabled] {
+  background: #64748b;
+  color: #cbd5e1;
+  cursor: not-allowed;
+  animation: none;
+}
+
+button[aria-busy="true"][disabled]::after {
+  opacity: 0.25;
+}
+
+/* 8. Loading + Disabled + Hover ------------------------------*/
+button[aria-busy="true"][disabled]:hover {
+  transform: none;
+}
+
+/* 9. Focused --------------------------------------------------*/
+button:focus {
+  outline: none;
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* 10. Focused + Hover ----------------------------------------*/
+button:focus:hover {
+  transform: scale(1.07) rotate(-1deg);
+}
+
+/* 11. Focused + Disabled -------------------------------------*/
+button:focus[disabled] {
+  animation: none;
+  outline: 3px dashed #d4d4d8;
+}
+
+/* 12. Focused + Disabled + Hover -----------------------------*/
+button:focus[disabled]:hover {
+  transform: none;
+}
