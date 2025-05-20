@@ -1,18 +1,17 @@
-import {BkTextInputContext} from './index';
+import {BkTextInputContext, injectBkTextInput} from './index';
 
 describe('BkTextInputContext', () => {
   describe('Default State', () => {
     let ctx: BkTextInputContext;
 
     beforeEach(() => {
-      ctx = new BkTextInputContext();
+      ctx = injectBkTextInput();
     });
 
-    it('should initialize to default empty state', () => {
+    it('should initialise to a clean empty state', () => {
       expect(ctx.value()).toBe('');
       expect(ctx.dirty()).toBe(false);
       expect(ctx.touched()).toBe(false);
-      expect(ctx.focused()).toBe(false);
       expect(ctx.disabled()).toBe(false);
       expect(ctx.required()).toBe(false);
       expect(ctx.readonly()).toBe(false);
@@ -55,7 +54,7 @@ describe('BkTextInputContext', () => {
     });
   });
 
-  describe('Input Behavior', () => {
+  describe('Input Behaviour', () => {
     it('should update value and mark dirty', () => {
       const ctx = new BkTextInputContext({initialValue: 'init'});
       ctx.setValue('changed');
@@ -69,22 +68,20 @@ describe('BkTextInputContext', () => {
       expect(ctx.hasValue()).toBe(true);
     });
 
-    it('should reset to initial value and clear state', () => {
+    it('should reset to the initial value and clear state', () => {
       const ctx = new BkTextInputContext({initialValue: 'reset-me'});
       ctx.setValue('changed');
       ctx.setErrors({invalid: true});
-      ctx.focus();
-      ctx.blur();
+      ctx.blur();          // marks as touched
       ctx.reset();
 
       expect(ctx.value()).toBe('reset-me');
       expect(ctx.dirty()).toBe(false);
       expect(ctx.errors()).toBeNull();
-      expect(ctx.focused()).toBe(false);
       expect(ctx.touched()).toBe(false);
     });
 
-    it('should not re-mark dirty if setting same value', () => {
+    it('should not mark dirty if setting the same value', () => {
       const ctx = new BkTextInputContext({initialValue: 'same'});
       ctx.setValue('same');
       expect(ctx.dirty()).toBe(false);
@@ -104,25 +101,28 @@ describe('BkTextInputContext', () => {
     });
   });
 
-  describe('Focus & Touched State', () => {
-    it('should mark focused on focus', () => {
-      const ctx = new BkTextInputContext();
+  describe('Focus & Blur', () => {
+    it('invokes onFocus and keeps touched false', () => {
+      const onFocus = jest.fn();
+      const ctx = new BkTextInputContext({onFocus});
       ctx.focus();
-      expect(ctx.focused()).toBe(true);
+      expect(onFocus).toHaveBeenCalledTimes(1);
+      expect(ctx.touched()).toBe(false);
     });
 
-    it('should mark touched on blur after focus', () => {
-      const ctx = new BkTextInputContext();
-      ctx.focus();
+    it('invokes onBlur and marks touched', () => {
+      const onBlur = jest.fn();
+      const ctx = new BkTextInputContext({onBlur});
       ctx.blur();
-      expect(ctx.focused()).toBe(false);
+      expect(onBlur).toHaveBeenCalledTimes(1);
       expect(ctx.touched()).toBe(true);
     });
 
-    it('should not mark touched on blur without focus', () => {
+    it('keeps touched true on subsequent blurs', () => {
       const ctx = new BkTextInputContext();
       ctx.blur();
-      expect(ctx.touched()).toBe(false);
+      ctx.blur();
+      expect(ctx.touched()).toBe(true);
     });
   });
 

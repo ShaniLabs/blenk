@@ -1,13 +1,15 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {BkButtonContext, BkButtonDirective, injectBkButton} from '@blenk/core';
+import {BkButtonDirective} from '../directive';
 import {action} from '@storybook/addon-actions';
+import {BkButtonContext, injectBkButton} from '../context';
 
 @Component({
   selector: 'bk-button-component',
   imports: [CommonModule, BkButtonDirective],
   template: `
-    <button [bkButton]="context"> {{ context.label() }}</button>`,
+    <button [bkButton]="context"> {{ context.label() }}</button>
+  `,
   styleUrl: './bk-button.component.css',
 })
 export class BkButtonComponent implements OnChanges {
