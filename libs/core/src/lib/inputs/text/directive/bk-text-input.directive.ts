@@ -9,6 +9,7 @@ import {BkTextInputContext} from '../context';
     '[attr.aria-disabled]': 'context().disabled() ? "true" : null',
     '[attr.aria-readonly]': 'context().readonly() ? "true" : null',
     '[attr.aria-invalid]': '!context().valid() ? "true" : null',
+    '[attr.aria-busy]': '!context().loading() ? "true" : null',
     '[required]': 'context().required() ? "" : null',
     '[placeholder]': 'context().placeholder()',
     '[disabled]': 'context().disabled()',

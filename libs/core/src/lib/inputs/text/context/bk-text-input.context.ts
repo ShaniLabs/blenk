@@ -5,6 +5,7 @@ export interface BkTextInputConfig {
   disabled?: boolean;
   required?: boolean;
   readonly?: boolean;
+  loading?: boolean;
   errors?: Record<string, unknown> | null;
   label?: string;
   placeholder?: string;
@@ -19,6 +20,7 @@ export class BkTextInputContext {
   readonly #label = signal('');
   readonly #dirty = signal(false);
   readonly #disabled = signal(false);
+  readonly #loading = signal(false);
   readonly #required = signal(false);
   readonly #readonly = signal(false);
   readonly #errors = signal<Record<string, unknown> | null>(null);
@@ -34,6 +36,7 @@ export class BkTextInputContext {
   readonly disabled = this.#disabled;
   readonly required = this.#required;
   readonly readonly = this.#readonly;
+  readonly loading = this.#loading;
   readonly errors = this.#errors;
   readonly touched = this.#touched;
   readonly placeholder = this.#placeholder;
@@ -48,6 +51,7 @@ export class BkTextInputContext {
     if (config?.disabled) this.#disabled.set(true);
     if (config?.required) this.#required.set(true);
     if (config?.readonly) this.#readonly.set(true);
+    if (config?.loading) this.#loading.set(config.loading);
     if (config?.errors) this.#errors.set(config.errors);
     if (config?.label) this.#label.set(config.label);
     if (config?.placeholder) this.#placeholder.set(config.placeholder);
@@ -80,6 +84,10 @@ export class BkTextInputContext {
 
   setRequired(required: boolean) {
     this.#required.set(required);
+  }
+
+  setLoading(loading: boolean) {
+    this.#loading.set(loading);
   }
 
   setErrors(errors: Record<string, unknown> | null) {
