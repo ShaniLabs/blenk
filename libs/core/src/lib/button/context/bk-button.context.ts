@@ -33,6 +33,8 @@ export class BkButtonContext {
       this.setLoading(config.loading ?? false);
       this.setDisabledReason(config.disabledReason ?? '');
       this.#onClick = config.onClick;
+      this.#onFocus = config.onFocus;
+      this.#onBlur = config.onBlur;
     }
   }
 

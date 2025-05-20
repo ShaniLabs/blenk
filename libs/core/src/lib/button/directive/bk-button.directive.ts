@@ -12,7 +12,7 @@ import {BkButtonContext} from '../context';
     '[attr.title]': 'context().disabled() ? context().disabledReason() : null',
     '(click)': 'context().click($event)',
     '(focus)': 'context().focus($event)',
-    '(blur)': 'context().focus($event)',
+    '(blur)': 'context().blur($event)',
   }
 })
 export class BkButtonDirective {
