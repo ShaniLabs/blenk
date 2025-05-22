@@ -1,0 +1,29 @@
+**Task:**
+Write CSS rules that style an HTML `<input type="number">` element of type number for every interaction state listed below.
+**Keep the selectors exactly as provided** and include **only CSS** in your reply (no commentary).
+Use any colors, animations, or effects you like, as long as each state looks visually distinct.
+
+**Selectors to style**
+1. `input[type="number"]` - default
+2. `input[type="number"]:hover`
+3. `input[type="number"]:focus`
+4. `input[type="number"]:focus:hover`
+5. `input[type="number"]:disabled`
+6. `input[type="number"]:disabled:hover`
+7. `input[type="number"]:focus:disabled`
+8. `input[type="number"]:focus:disabled:hover`
+9. `input[type="number"][readonly]`
+10. `input[type="number"][readonly]:hover`
+11. `input[type="number"]:focus[readonly]`
+12. `input[type="number"]:focus[readonly]:hover`
+13. `input[type="number"][aria-invalid="true"]`
+14. `input[type="number"][aria-invalid="true"]:hover`
+15. `input[type="number"]:focus[aria-invalid="true"]`
+16. `input[type="number"]:focus[aria-invalid="true"]:hover`
+17. `input[type="number"][aria-busy="true"]`
+18. `input[type="number"][aria-busy="true"]:hover`
+19. `input[type="number"]:focus[aria-busy="true"]`
+20. `input[type="number"]:focus[aria-busy="true"]:hover`
+
+**Output format:**
+A single fenced CSS code-block containing the 20 rules in numeric order.
