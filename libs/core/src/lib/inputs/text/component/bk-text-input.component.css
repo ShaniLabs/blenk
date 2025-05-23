@@ -1,0 +1,141 @@
+input[type="text"] {
+  width: 300px;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+  transition: all 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:hover {
+  border-color: #888;
+  background-color: #f5f5f5;
+  transform: scale(1.01);
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.25);
+  transform: scale(1.02);
+}
+
+input[type="text"]:focus:hover {
+  border-color: #0056b3;
+  background-color: #e6f0ff;
+  transform: scale(1.03);
+}
+
+input[type="text"]:disabled {
+  background-color: #f0f0f0;
+  border-color: #ddd;
+  color: #aaa;
+  cursor: not-allowed;
+  transform: none;
+}
+
+input[type="text"]:disabled:hover {
+  background-color: #ebebeb;
+  border-color: #ccc;
+}
+
+input[type="text"]:focus:disabled {
+  border-color: #bbb;
+  box-shadow: none;
+}
+
+input[type="text"]:focus:disabled:hover {
+  background-color: #e0e0e0;
+}
+
+input[type="text"][readonly] {
+  background-color: #fafafa;
+  border-color: #bbb;
+  color: #666;
+  font-style: italic;
+}
+
+input[type="text"][readonly]:hover {
+  border-color: #999;
+  background-color: #f0f0f0;
+}
+
+input[type="text"]:focus[readonly] {
+  border-color: #666;
+  box-shadow: 0 0 0 3px rgba(100, 100, 100, 0.2);
+}
+
+input[type="text"]:focus[readonly]:hover {
+  background-color: #eaeaea;
+}
+
+input[type="text"][aria-invalid="true"] {
+  border-color: #dc3545;
+  background-color: #ffe5e9;
+  animation: shake 0.3s ease-in-out 1;
+}
+
+input[type="text"][aria-invalid="true"]:hover {
+  background-color: #ffd6db;
+  border-color: #c82333;
+}
+
+input[type="text"]:focus[aria-invalid="true"] {
+  border-color: #b21f2d;
+  box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.25);
+}
+
+input[type="text"]:focus[aria-invalid="true"]:hover {
+  background-color: #ffccd2;
+}
+
+input[type="text"][aria-busy="true"] {
+  border-color: #ffc107;
+  background-color: #fff8e1;
+  background-image: linear-gradient(45deg, #fff8e1 25%, #ffe57f 25%, #ffe57f 50%, #fff8e1 50%, #fff8e1 75%, #ffe57f 75%, #ffe57f);
+  background-size: 40px 40px;
+  animation: busy-stripes 1s linear infinite;
+}
+
+input[type="text"][aria-busy="true"]:hover {
+  border-color: #e0a800;
+}
+
+input[type="text"]:focus[aria-busy="true"] {
+  border-color: #d39e00;
+  box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.25);
+}
+
+input[type="text"]:focus[aria-busy="true"]:hover {
+  background-color: #fff2b8;
+}
+
+/* Animations */
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes busy-stripes {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 0;
+  }
+}

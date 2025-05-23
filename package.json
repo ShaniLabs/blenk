@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build-storybook": "nx run ui:build-storybook",
-    "deploy-storybook": "npm run build-storybook && gh-pages -d dist/storybook/ui"
+    "build-storybook": "nx run core:build-storybook",
+    "deploy-storybook": "npm run build-storybook && gh-pages -d dist/storybook/core"
   },
   "private": true,
   "dependencies": {

@@ -1,7 +1,7 @@
 import {computed, signal} from '@angular/core';
 
-export interface BkTextInputConfig {
-  initialValue?: string;
+export interface BkNumberInputConfig {
+  initialValue?: number;
   disabled?: boolean;
   required?: boolean;
   readonly?: boolean;
@@ -14,9 +14,9 @@ export interface BkTextInputConfig {
   onDirtyChange?: (dirty: boolean) => void;
 }
 
-export class BkTextInputContext {
-  readonly #initialValue: string;
-  readonly #value = signal('');
+export class BkNumberInputContext {
+  readonly #initialValue: number | null;
+  readonly #value = signal<number | null>(null);
   readonly #label = signal('');
   readonly #dirty = signal(false);
   readonly #disabled = signal(false);
@@ -40,12 +40,12 @@ export class BkTextInputContext {
   readonly errors = this.#errors;
   readonly touched = this.#touched;
   readonly placeholder = this.#placeholder;
-  readonly hasValue = computed(() => this.#value().length > 0);
+  readonly hasValue = computed(() => this.#value() !== null);
 
   readonly valid = computed(() => this.#errors() === null);
 
-  constructor(config?: BkTextInputConfig) {
-    const initial = config?.initialValue ?? '';
+  constructor(config?: BkNumberInputConfig) {
+    const initial = config?.initialValue ?? null;
     this.#initialValue = initial;
     this.#value.set(initial);
     if (config?.disabled) this.#disabled.set(true);
@@ -60,7 +60,7 @@ export class BkTextInputContext {
     if (config?.onDirtyChange) this.#onDirtyChange = config.onDirtyChange;
   }
 
-  setValue(value: string) {
+  setValue(value: number | null) {
     if (!this.#readonly()) {
       if (value !== this.#initialValue && !this.dirty()) {
         this.setDirty(true);
@@ -121,6 +121,6 @@ export class BkTextInputContext {
   }
 }
 
-export function injectBkTextInput(config?: BkTextInputConfig): BkTextInputContext {
-  return new BkTextInputContext(config);
+export function injectBkNumberInput(config?: BkNumberInputConfig): BkNumberInputContext {
+  return new BkNumberInputContext(config);
 }

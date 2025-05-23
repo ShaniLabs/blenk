@@ -1,0 +1,29 @@
+**Task:**
+Write CSS rules that style an HTML `<input>` element of type text for every interaction state listed below.
+**Keep the selectors exactly as provided** and include **only CSS** in your reply (no commentary).
+Use any colors, animations, or effects you like, as long as each state looks visually distinct.
+
+**Selectors to style**
+1. `input[type="text"]` - default
+2. `input[type="text"]:hover`
+3. `input[type="text"]:focus`
+4. `input[type="text"]:focus:hover`
+5. `input[type="text"]:disabled`
+6. `input[type="text"]:disabled:hover`
+7. `input[type="text"]:focus:disabled`
+8. `input[type="text"]:focus:disabled:hover`
+9. `input[type="text"][readonly]`
+10. `input[type="text"][readonly]:hover`
+11. `input[type="text"]:focus[readonly]`
+12. `input[type="text"]:focus[readonly]:hover`
+13. `input[type="text"][aria-invalid="true"]`
+14. `input[type="text"][aria-invalid="true"]:hover`
+15. `input[type="text"]:focus[aria-invalid="true"]`
+16. `input[type="text"]:focus[aria-invalid="true"]:hover`
+17. `input[type="text"][aria-busy="true"]`
+18. `input[type="text"][aria-busy="true"]:hover`
+19. `input[type="text"]:focus[aria-busy="true"]`
+20. `input[type="text"]:focus[aria-busy="true"]:hover`
+
+**Output format:**
+A single fenced CSS code-block containing the 20 rules in numeric order.

@@ -23,6 +23,28 @@ describe('BkTextInputContext', () => {
     });
   });
 
+  it('inject with configuration', () => {
+    const context = injectBkTextInput({
+      initialValue: 'init',
+      disabled: true,
+      required: true,
+      readonly: true,
+      errors: {required: true},
+      label: 'Email',
+      placeholder: 'Enter email',
+    });
+
+    expect(context.value()).toBe('init');
+    expect(context.disabled()).toBe(true);
+    expect(context.required()).toBe(true);
+    expect(context.readonly()).toBe(true);
+    expect(context.errors()).toEqual({required: true});
+    expect(context.label()).toBe('Email');
+    expect(context.placeholder()).toBe('Enter email');
+    expect(context.valid()).toBe(false);
+    expect(context.hasValue()).toBe(true);
+  })
+
   describe('Configuration Scenarios', () => {
     it('should respect initial configuration', () => {
       const ctx = new BkTextInputContext({

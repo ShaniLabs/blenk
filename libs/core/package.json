@@ -2,7 +2,11 @@
   "name": "@blenk/core",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/core": "^19.2.0"
+    "@angular/core": "^19.2.0",
+    "@angular/common": "~19.2.0",
+    "@storybook/addon-actions": "^8.6.12",
+    "@nx/angular": "21.0.3",
+    "daisyui": "4.12.24"
   },
   "sideEffects": false
 }

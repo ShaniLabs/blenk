@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {action} from '@storybook/addon-actions';
-import {BkButtonContext, BkButtonDirective, injectBkButton} from '@blenk/core';
+import {BkButtonContext, BkButtonDirective, injectBkButton} from '../index';
 
 @Component({
   selector: 'bk-button-component',
