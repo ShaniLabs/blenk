@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {BkNumberInputContext, BkNumberInputDirective, injectBkNumberInput} from '@blenk/core';
+import {BkNumberInputContext, BkNumberInputDirective, injectBkNumberInput} from '../index';
 import {action} from '@storybook/addon-actions';
 
 @Component({
@@ -12,7 +12,7 @@ import {action} from '@storybook/addon-actions';
   `
 })
 export class StoryBkNumberInputWrapperComponent implements OnChanges, OnInit {
-  @Input() value: number = 0;
+  @Input() value = 0;
   @Input() disabled = false;
   @Input() readonly = false;
   @Input() required = false;

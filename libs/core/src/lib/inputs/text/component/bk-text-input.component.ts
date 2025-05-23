@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {BkTextInputContext, BkTextInputDirective, injectBkTextInput} from '@blenk/core';
+import {BkTextInputContext, BkTextInputDirective, injectBkTextInput} from '../index';
 import {action} from '@storybook/addon-actions';
 
 @Component({
